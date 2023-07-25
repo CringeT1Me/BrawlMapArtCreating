@@ -1,0 +1,12 @@
+<RCC>
+  <qresource prefix="image">
+    <file>assets/Map.png</file>
+  </qresource>
+  <qresource prefix="icons">
+    <file>assets/icons/grid.svg</file>
+    <file>assets/showdown/brown_crate.png</file>
+    <file>assets/icons/image_new.svg</file>
+    <file>assets/icons/image_save.svg</file>
+    <file>assets/icons/map_cells.svg</file>
+  </qresource>
+</RCC>

@@ -1,79 +1,126 @@
-def get_color_name(rgb):
-    colors = {
-        "red_slow": (233, 2, 1),
-        "red_green_cactus": (49, 158, 73),
-        "green_boost": (1, 194, 1),
-        "blue_water": (87, 184, 241),
-        "brown_barrel": (233, 177, 128),
-        "brown_wall": (152, 75, 38),
-        "brown_crate": (255, 192, 131),
-        "yellow_grass": (225, 109, 23),
-        "black_spikes": (0, 0, 0),
-        "white_bones": (255, 227, 202),
-    }
-    min_distance = float("inf")
-    closest_color = None
-    for color, value in colors.items():
-        distance = sum([(i - j) ** 2 for i, j in zip(rgb, value)])
-        if distance < min_distance:
-            min_distance = distance
-            closest_color = color
-    return closest_color
+from PIL import Image, ImageEnhance, ImageDraw
+from GetColor import GetColor
+import io
+import sys
+from PySide6 import QtWidgets, QtGui
 
-def get_color(rgb):
-    colors = {
-        "red_slow": (233, 2, 1),
-        "red_green_cactus": (49, 158, 73),
-        "green_boost": (1, 194, 1),
-        "blue_water": (87, 184, 241),
-        "brown_powerup": (236, 158, 88),
-        "brown_barrel": (233, 177, 128),
-        "brown_wall": (152, 75, 38),
-        "brown_crate": (255, 192, 131),
-        "yellow_grass": (225, 109, 23),
-        "black_spikes": (0, 0, 0),
-        "white_bones": (255, 227, 202),
-    }
-    min_distance = float("inf")
-    closest_color = None
-    for color, value in colors.items():
-        distance = sum([(i - j) ** 2 for i, j in zip(rgb, value)])
-        if distance < min_distance:
-            min_distance = distance
-            closest_color = value
-    return closest_color
+from gui import Ui_MainWindow
 
 
-# Testing
-from PIL import Image
+class MainWindow(QtWidgets.QMainWindow):
+    def __init__(self, mapmaker):
+        super(MainWindow, self).__init__()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+        self.mapmaker = mapmaker
+        self.dialog_save = QtWidgets.QFileDialog(self)
+        self.dialog_open = QtWidgets.QFileDialog(self)
+        self.dialog_open.selectNameFilter('Images (*.png *.jpg)')
+        self.dialog_open.setFileMode(QtWidgets.QFileDialog.FileMode.ExistingFile)
+        self.ui.btn_new_image.clicked.connect(self.create_new_image)
+        self.ui.btn_save_image.clicked.connect(self.save_image)
+        self.ui.checkBox_grid.clicked.connect(self.set_image)
+        self.ui.checkBox_map_cells.clicked.connect(self.set_image)
 
-source_image = Image.open("image.jpg").convert('RGB')
-source_image = source_image.resize((60, 60))
-map_of_assets = [[0] * 60 for i in range(60)]
-pixels = source_image.load()
-for x in range(60):
-    for y in range(60):
-        pixel = pixels[x, y]
-        pixels[x, y] = get_color((pixel[0], pixel[1], pixel[2]))
-        map_of_assets[x][y] = get_color_name((pixel[0], pixel[1], pixel[2]))
-#         if pixel[0] > 128 and pixel[1] > 128 and pixel[2] > 128:
-#             pixels[x, y] = (255, 255, 255)
-#         elif pixel[0] <= 128 and pixel[1] <= 128 and pixel[2] <= 128:
-#             pixels[x, y] = (0, 0, 0)
-#         elif pixel[0] > pixel[1] and pixel[0] > pixel[2]:
-#             pixels[x, y] = (pixel[0], 0, 0)
-#         elif pixel[1] > pixel[0] and pixel[1] > pixel[2]:
-#             pixels[x, y] = (0, pixel[1], 0)
-#         elif pixel[2] > pixel[0] and pixel[2] > pixel[1]:
-#             pixels[x, y] = (0, 0, pixel[2])
-for i in range(60):
-    for j in range(60):
-        print(map_of_assets[i][j])
+    def get_image(self):
+        if self.ui.checkBox_grid.isChecked() and self.ui.checkBox_map_cells.isChecked():
+            img = self.mapmaker.get_result_image_with_grid_and_cells()
+        elif self.ui.checkBox_grid.isChecked():
+            img = self.mapmaker.get_result_image_with_grid()
+        elif self.ui.checkBox_map_cells.isChecked():
+            img = self.mapmaker.get_result_image_with_cells()
+        else:
+            img = self.mapmaker.get_result_image()
+        return img
 
-result_image = Image.new('RGB', ((2400,2400)), (0,0,0))
-images = [[0] * 60 for i in range(60)]
-for x in range(60):
-    for y in range(60):
-        images[x][y] = Image.open('assets\\showdown\\' + map_of_assets[x][y] + '.png').resize((40, 40)).convert('RGBA')
-        result_image.paste(images[x][y], (x*40,y*40))
-result_image.save('result.png')
+    def create_new_image(self):
+        fname = self.dialog_open.getOpenFileName(self, 'Open file', '/', 'Images (*.png *.jpg)')
+        self.mapmaker.set_source_image(fname[0])
+        self.set_image()
+
+    def set_image(self, ):
+        img = self.get_image()
+        bytes_img = io.BytesIO()
+        img.save(bytes_img, format='PNG')
+        q_img = QtGui.QImage()
+        q_img.loadFromData(bytes_img.getvalue())
+        self.ui.ImageBoard.setPixmap(QtGui.QPixmap.fromImage(q_img))
+
+    def save_image(self):
+        fpath = self.dialog_save.getSaveFileName(self, 'Save file', '/', 'PNG (*.png);; JPG (*.jpg)')
+        img = self.get_image()
+        if fpath[1].find('JPG', 0, 3) != -1:
+            img = img.convert('RGB')
+        img.save(fpath[0])
+
+
+class MakeAMap:
+    def __init__(self, get_color):
+        self.getColor = get_color
+        self.assets_size = 40
+        self.source_image = None
+        self.result_image = Image.open('assets\\map.png').convert('RGBA')
+        self.result_image_map_cells = Image.open('assets\\map.png').convert('RGBA')
+        self.result_image_grid = None
+        self.result_image_grid_map_cells = None
+        self.draw_grid()
+
+    def make_map(self):
+        self.result_image = Image.open('assets\\map.png').convert('RGBA')
+        self.result_image_map_cells = Image.open('assets\\map.png').convert('RGBA')
+        map_of_assets = [[0] * 60 for _ in range(60)]
+        map_of_assets_with_cells = [[0] * 60 for _ in range(60)]
+        pixels = self.source_image.load()
+        images = [[0] * 60 for _ in range(60)]
+        for x in range(60):
+            for y in range(60):
+                rgb = pixels[x, y]
+                map_of_assets[x][y] = self.getColor.get_color(rgb)
+                map_of_assets_with_cells[x][y] = self.getColor.get_color_map_cells(rgb)
+                if not (map_of_assets_with_cells[x][y] == 'brown_map_cell_dark' and (x - y) % 2 == 0) and not (
+                        map_of_assets_with_cells[x][y] == 'brown_map_cell_light' and (x - y) % 2 != 0):
+                    images[x][y] = Image.open('assets\\showdown\\' + str(map_of_assets[x][y]) + '.png').resize(
+                        (40, 40)).convert('RGBA')
+                    self.result_image_map_cells.paste(images[x][y], (x * 40, y * 40), mask=images[x][y])
+                images[x][y] = Image.open('assets\\showdown\\' + str(map_of_assets[x][y]) + '.png').resize(
+                    (40, 40)).convert('RGBA')
+                self.result_image.paste(images[x][y], (x * 40, y * 40), mask=images[x][y])
+        self.draw_grid()
+
+    def get_result_image_with_grid(self):
+        return self.result_image_grid
+
+    def get_result_image_with_grid_and_cells(self):
+        return self.result_image_grid_map_cells
+
+    def get_result_image_with_cells(self):
+        return self.result_image_map_cells
+
+    def get_result_image(self):
+        return self.result_image
+
+    def draw_grid(self):
+        self.result_image_grid = self.result_image.copy()
+        self.result_image_grid_map_cells = self.result_image_map_cells.copy()
+        drawer = ImageDraw.Draw(self.result_image_grid)
+        drawer_with_cells = ImageDraw.Draw(self.result_image_grid_map_cells)
+        for xy in range(40, 2400, 40):
+            drawer.line((xy, 0, xy, 2400), (255, 255, 255), 2)
+            drawer.line((0, xy, 2400, xy), (255, 255, 255), 2)
+            drawer_with_cells.line((xy, 0, xy, 2400), (255, 255, 255), 2)
+            drawer_with_cells.line((0, xy, 2400, xy), (255, 255, 255), 2)
+
+    def set_source_image(self, path):
+        self.source_image = Image.open(path).convert('RGBA')
+        enchancer = ImageEnhance.Contrast(self.source_image)
+        self.source_image = enchancer.enhance(2.5)
+        self.source_image = self.source_image.resize((60, 60))
+        self.make_map()
+
+
+app = QtWidgets.QApplication(sys.argv)
+getColor = GetColor()
+mapmaker = MakeAMap(getColor)
+window = MainWindow(mapmaker)
+window.show()
+app.exec()

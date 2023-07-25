@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1250</width>
+    <height>967</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Brawl Stars Map Art Creator 1.0</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normalon>:/icons/assets/showdown/brown_crate.png</normalon>
+   </iconset>
+  </property>
+  <property name="layoutDirection">
+   <enum>Qt::LeftToRight</enum>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">font-family: 12pt &quot;Century Schoolbook&quot;;
+font: 12pt &quot;Century Schoolbook&quot;;
+background-color: rgb(23, 22, 22);
+border-radius: 20px</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="minimumSize">
+    <size>
+     <width>1118</width>
+     <height>626</height>
+    </size>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_5">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QLabel" name="ImageBoard">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>600</width>
+            <height>600</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>1000</width>
+            <height>1000</height>
+           </size>
+          </property>
+          <property name="sizeIncrement">
+           <size>
+            <width>100</width>
+            <height>900</height>
+           </size>
+          </property>
+          <property name="baseSize">
+           <size>
+            <width>700</width>
+            <height>700</height>
+           </size>
+          </property>
+          <property name="mouseTracking">
+           <bool>false</bool>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">padding: 10px;
+height: width;
+
+</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="GUI-res.qrc">:/image/assets/Map.png</pixmap>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+          </property>
+          <property name="wordWrap">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Preferred</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>100</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QPushButton" name="btn_new_image">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>232</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>10000</width>
+            <height>60</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	color: rgb(255, 255, 255);
+     background-color:rgba(255,255,255,30);
+     border: 1px solid rgba(255,255,255,40);
+     border-radius:7px;
+font-size: 24pt;
+}
+QPushButton:hover{
+background-color:rgba(255,255,255,50);
+}
+QPushButton:pressed{
+background-color:rgba(255,255,255,70);
+}</string>
+          </property>
+          <property name="text">
+           <string>New Image</string>
+          </property>
+          <property name="icon">
+           <iconset resource="GUI-res.qrc">
+            <normaloff>:/icons/assets/icons/image_new.svg</normaloff>:/icons/assets/icons/image_new.svg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="spacing">
+           <number>10</number>
+          </property>
+          <item alignment="Qt::AlignLeft">
+           <widget class="QCheckBox" name="checkBox_map_cells">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>250</width>
+              <height>60</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QCheckBox{
+	color: rgb(255, 255, 255);
+     background-color:rgba(255,255,255,30);
+     border: 1px solid rgba(255,255,255,40);
+     border-radius:7px;
+	 spacing: 10px;
+}
+QCheckBox:hover{
+background-color:rgba(255,255,255,50);
+}
+QCheckBox:pressed{
+background-color:rgba(255,255,255,70);
+}</string>
+            </property>
+            <property name="text">
+             <string>Use map cells</string>
+            </property>
+            <property name="icon">
+             <iconset resource="GUI-res.qrc">
+              <normaloff>:/icons/assets/icons/map_cells.svg</normaloff>:/icons/assets/icons/map_cells.svg</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="tristate">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_grid">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>250</width>
+              <height>60</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QCheckBox{
+	color: rgb(255, 255, 255);
+     background-color:rgba(255,255,255,30);
+     border: 1px solid rgba(255,255,255,40);
+     border-radius:7px;
+	 spacing: 10px;
+}
+QCheckBox:hover{
+background-color:rgba(255,255,255,50);
+}
+QCheckBox:pressed{
+background-color:rgba(255,255,255,70);
+}</string>
+            </property>
+            <property name="text">
+             <string>Show grid</string>
+            </property>
+            <property name="icon">
+             <iconset resource="GUI-res.qrc">
+              <normaloff>:/icons/assets/icons/grid.svg</normaloff>:/icons/assets/icons/grid.svg</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>30</width>
+              <height>30</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_save_image">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>1000</width>
+            <height>60</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+	color: rgb(255, 255, 255);
+     background-color:rgba(255,255,255,30);
+     border: 1px solid rgba(255,255,255,40);
+     border-radius:7px;
+	 font-size: 24pt;
+}
+QPushButton:hover{
+background-color:rgba(255,255,255,50);
+}
+QPushButton:pressed{
+background-color:rgba(255,255,255,70);
+}</string>
+          </property>
+          <property name="text">
+           <string>Save Image</string>
+          </property>
+          <property name="icon">
+           <iconset resource="GUI-res.qrc">
+            <normaloff>:/icons/assets/icons/image_save.svg</normaloff>:/icons/assets/icons/image_save.svg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Preferred</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>700</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 255, 255);
+font-size: 14pt</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Plain</enum>
+          </property>
+          <property name="text">
+           <string>Created by CringeT1Me
+on GitHub</string>
+          </property>
+          <property name="textFormat">
+           <enum>Qt::AutoText</enum>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources>
+  <include location="GUI-res.qrc"/>
+ </resources>
+ <connections/>
+</ui>
