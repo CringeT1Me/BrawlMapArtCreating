@@ -1,4 +1,4 @@
-<h1 class="code-line" data-line-start=0 data-line-end=1 ><span style="color:yellow"><a id="BrawlStarsMapArtCreator_10_0"></a>BrawlStarsMapArtCreator 1.0</span></h1>
+<h1 class="code-line" data-line-start=0 data-line-end=1 ><span style="color:yellow"><a id="BrawlStarsMapArtCreator_10_0"></a>BrawlStarsMapArtCreator v1.0.0</span></h1>
 <p class="has-line-data" data-line-start="1" data-line-end="8"><span style="color:green">Creates map in brawl stars from image.<br>
 Select an image by clicking on the “New Image” button. The image is converted into a map consisting only of the showdown scenery at the moment.<br>
 The “Use map cells” parameter is responsible for using not only the decorations, but also the cells themselves, if they are more suitable for the color of the pixel.<br>
